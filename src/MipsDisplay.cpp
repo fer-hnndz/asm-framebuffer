@@ -40,6 +40,10 @@ bool MipsDisplay::OnUserUpdate(float fElapsedTime)
     else
         last_key = 0;
 
+    for (int y = 0; y < SCREEN_H; y++)
+        for (int x = 0; x < SCREEN_W; x++)
+            Draw(x, y, olc::Pixel(vram[y * SCREEN_W + x]));
+
     return running;
 }
 
@@ -50,9 +54,6 @@ void MipsDisplay::Sleep(int ms)
 
 void MipsDisplay::Flush()
 {
-    for (int y = 0; y < SCREEN_H; y++)
-        for (int x = 0; x < SCREEN_W; x++)
-            Draw(x, y, olc::Pixel(vram[y * SCREEN_W + x]));
 }
 
 void MipsDisplay::RunEngine()
@@ -81,17 +82,14 @@ void MipsDisplay::StopEngine()
 
 void MipsDisplay::SetPixel(int x, int y, uint32_t color)
 {
-    if (x < 0 || x >= SCREEN_H || y < 0 || y >= SCREEN_H)
+    if (x < 0 || x >= SCREEN_W || y < 0 || y >= SCREEN_H)
         return;
 
     vram[y * SCREEN_W + x] = color;
 }
-
 void MipsDisplay::Clear(uint32_t color)
 {
     for (int y = 0; y < SCREEN_H; y++)
         for (int x = 0; x < SCREEN_W; x++)
             vram[y * SCREEN_W + x] = color;
-
-    std::cout << "Screen cleared with color: " << std::hex << color << std::dec << std::endl;
 }

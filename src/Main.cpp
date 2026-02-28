@@ -45,8 +45,7 @@ handleSyscall(uint32_t *regs, void *mem, MemoryMap *mem_map)
     // Clear (with color)
     case 103:
     {
-        uint32_t color = regs[Register::a0];
-
+        uint32_t color = regs[Register::a0] | 0xFF000000;
         display->Clear(color);
         return ErrorCode::Ok;
     }

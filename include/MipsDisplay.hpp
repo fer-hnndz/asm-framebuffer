@@ -40,6 +40,7 @@ public:
     void Clear(uint32_t color);
 
 private:
+    bool shouldExit = false;
     std::atomic<bool> running = false;
     int last_key = 0;
     uint32_t vram[SCREEN_W * SCREEN_H];
