@@ -20,15 +20,19 @@ main:
     sw $ra, 12($sp)
 
     
-    li $s0, 20 ; $s0 -> x
-    li $s1, 15 ; $s1 -> y
+    li $s0, 12 ; $s0 -> x
+    li $s1, 9 ; $s1 -> y
 
-    li $t0, 0
     input_loop:
-        move $t0, $v0;
+        #show $v0 decimal
+
         li $v0, 104
         syscall
         
+        li $t0, 5
+        beq $v0, $t0, end
+
+        li $t0, 0
         beq $t0, $v0, input_loop
 
         li $t0, 1 
@@ -58,25 +62,33 @@ main:
         ; Color is read from 0($sp)
 
         jal draw_rectangle
-
-        li $t0, 5
-        bne $v0, $t0, input_loop
+        j input_loop
     
     up:
-        addi $s1, $s1, 2
+        beq $s1, $zero, input_loop
+        addi $s1, $s1, -1
         j update
 
     down:
-        addi $s1, $s1, -2
+        li $t0, 124 ; 128 - 4 = 124 to draw complete rect on screen and avoid clipping
+        beq $t0, $s1, input_loop
+
+        addi $s1, $s1, 1
         j update
 
     left:
-        addi $s0, $s0, -2
+        slt $t0, $zero, $s0 ;0 < x
+        beqz $t0, input_loop
+
+        addi $s0, $s0, -1
         j update
 
     
     right:
-        addi $s0, $s0, 2
+        li $t0, 252 ; same as down check.
+        beq $t0, $s0, input_loop
+
+        addi $s0, $s0, 1
         j update
 
 

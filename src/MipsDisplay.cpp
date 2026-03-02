@@ -40,10 +40,7 @@ bool MipsDisplay::OnUserUpdate(float fElapsedTime)
     else
         last_key = 0;
 
-    for (int y = 0; y < SCREEN_H; y++)
-        for (int x = 0; x < SCREEN_W; x++)
-            Draw(x, y, olc::Pixel(vram[y * SCREEN_W + x]));
-
+    Flush();
     return running;
 }
 
@@ -54,6 +51,9 @@ void MipsDisplay::Sleep(int ms)
 
 void MipsDisplay::Flush()
 {
+    for (int y = 0; y < SCREEN_H; y++)
+        for (int x = 0; x < SCREEN_W; x++)
+            Draw(x, y, olc::Pixel(vram[y * SCREEN_W + x]));
 }
 
 void MipsDisplay::RunEngine()
