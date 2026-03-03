@@ -21,27 +21,28 @@ draw_rectangle:
 
     move $s0, $a0
     move $s1, $a1
-
     addu $s2, $a0, $a2 ; x_end = x0 + w
     addiu $s2, $s2, -1
     addu $s3, $a1, $a3 ; y_end = y + h
     move $s4, $t0
 
-rect_y_loop:
-    slt $t1, $s1, $s3 ; y < y_end
-    beq $t1, $zero, end_draw_rect
+    ; Draw top and bottom lines
 
     move $a0, $s0
     move $a1, $s2
     move $a2, $s1
     move $a3, $s4
-    
+
     jal draw_horizontal_line
 
-    ; next row
+    ; change y paramter
 
-    addiu $s1, $s1, 1
-    j rect_y_loop
+    move $a0, $s0
+    move $a1, $s2
+    move $a2, $s3
+    move $a3, $s4
+    
+    jal draw_horizontal_line
 
 end_draw_rect:
     lw $s4, 8($sp)

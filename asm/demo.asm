@@ -24,8 +24,6 @@ main:
     li $s1, 9 ; $s1 -> y
 
     input_loop:
-        #show $v0 decimal
-
         li $v0, 104
         syscall
         
@@ -57,8 +55,8 @@ main:
         ; draw_rectangle(x, y, w, h, color)
         move $a0, $s0
         move $a1, $s1
-        li $a2, 4
-        li $a3, 4
+        li $a2, 8
+        li $a3, 8
         ; Color is read from 0($sp)
 
         jal draw_rectangle
@@ -70,7 +68,7 @@ main:
         j update
 
     down:
-        li $t0, 124 ; 128 - 4 = 124 to draw complete rect on screen and avoid clipping
+        li $t0, 120 ; 128 - 0 = 120 to draw complete rect on screen and avoid clipping
         beq $t0, $s1, input_loop
 
         addi $s1, $s1, 1
