@@ -36,13 +36,51 @@ draw_rectangle:
     jal draw_horizontal_line
 
     ; change y paramter
-
     move $a0, $s0
     move $a1, $s2
     move $a2, $s3
     move $a3, $s4
-    
+
     jal draw_horizontal_line
+
+    ; Draw vertical line
+
+    move $t0, $s0
+    move $t1, $s1 ; current y
+
+    left_vert_line_loop:
+        slt $t3, $t1, $s3 ; s3 = y_end
+        beqz $t3, left_vert_line_loop_end
+
+        ; use set pixel
+        move $a0, $t0
+        move $a1, $t1
+        move $a2, $s4
+        
+        li $v0, 101
+        syscall
+
+        addi $t1, $t1, 1
+        j left_vert_line_loop
+
+    left_vert_line_loop_end:
+        move $t0, $s2 ; right side x-pos
+        move $t1, $s1 ; current y
+
+    right_vert_line_loop:
+        slt $t3, $t1, $s3 ; s3 = y_end
+        beqz $t3, end_draw_rect
+
+        ; use set pixel
+        move $a0, $t0
+        move $a1, $t1
+        move $a2, $s4
+        
+        li $v0, 101
+        syscall
+
+        addi $t1, $t1, 1
+        j right_vert_line_loop
 
 end_draw_rect:
     lw $s4, 8($sp)
