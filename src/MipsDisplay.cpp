@@ -22,7 +22,7 @@ bool MipsDisplay::OnUserCreate()
 
 bool MipsDisplay::OnUserDestroy()
 {
-    return false;
+    return true; // needed for engine to close gracefully
 }
 
 bool MipsDisplay::OnUserUpdate(float fElapsedTime)
